@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Sales Playbook Assistant — Get smart objection handling suggestions powered by your company's playbook.">
+    <title>SalesAI — Playbook Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- ═══════════════ SIDEBAR ═══════════════ -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <span class="logo-text">SalesAI</span>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
+            </button>
+        </div>
+
+        <button class="new-chat-btn" id="newChatBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            New Conversation
+        </button>
+
+        <div class="sidebar-section">
+            <h3 class="sidebar-section-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                    <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                </svg>
+                Recent History
+            </h3>
+            <div class="history-list" id="historyList">
+                <div class="history-empty">
+                    <p>No conversations yet</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <h3 class="sidebar-section-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                </svg>
+                Playbook Status
+            </h3>
+            <div class="playbook-status" id="playbookStatus">
+                <div class="status-card">
+                    <div class="status-row">
+                        <span class="status-label">Status</span>
+                        <span class="status-badge loading" id="pbStatusBadge">Loading...</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Chunks</span>
+                        <span class="status-value" id="pbChunkCount">—</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Categories</span>
+                        <span class="status-value" id="pbCategoryCount">—</span>
+                    </div>
+                </div>
+                <button class="seed-btn" id="seedBtn" title="Load sample playbook data">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Seed Playbook
+                </button>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <p>EL-105 • AI Sales Playbook</p>
+        </div>
+    </aside>
+
+    <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+    <main class="main-content" id="mainContent">
+        <!-- Top bar -->
+        <header class="top-bar">
+            <button class="menu-btn" id="menuBtn" title="Open sidebar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+            <div class="top-bar-title">
+                <h1>AI Sales Playbook Assistant</h1>
+                <span class="top-bar-subtitle">Powered by RAG + Groq</span>
+            </div>
+            <div class="top-bar-actions">
+                <button class="icon-btn" id="clearHistoryBtn" title="Clear all history">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Chat area -->
+        <div class="chat-area" id="chatArea">
+            <!-- Welcome screen -->
+            <div class="welcome-screen" id="welcomeScreen">
+                <div class="welcome-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <h2>Smart Sales Suggestions</h2>
+                <p>Close more deals with your company's best sales scripts. Describe a customer objection and get instant, playbook-backed responses.</p>
+
+                <div class="example-queries">
+                    <h3>Try an example:</h3>
+                    <div class="example-grid">
+                        <button class="example-card" data-query="The customer says our product is too expensive compared to competitors">
+                            <span class="example-emoji">💰</span>
+                            <span class="example-text">"Your product is too expensive"</span>
+                        </button>
+                        <button class="example-card" data-query="The prospect says they are already using Competitor Y and are happy with it">
+                            <span class="example-emoji">🏢</span>
+                            <span class="example-text">"We're already using a competitor"</span>
+                        </button>
+                        <button class="example-card" data-query="The customer says they need to discuss this with their manager before making a decision">
+                            <span class="example-emoji">👤</span>
+                            <span class="example-text">"I need to talk to my boss"</span>
+                        </button>
+                        <button class="example-card" data-query="The prospect says they are too busy to implement a new tool right now">
+                            <span class="example-emoji">⏰</span>
+                            <span class="example-text">"We're too busy right now"</span>
+                        </button>
+                        <button class="example-card" data-query="The customer says they tried a similar product before and it didn't work out">
+                            <span class="example-emoji">😟</span>
+                            <span class="example-text">"We tried something similar before"</span>
+                        </button>
+                        <button class="example-card" data-query="The prospect wants a discount and says we need to lower the price to close the deal">
+                            <span class="example-emoji">🏷️</span>
+                            <span class="example-text">"Can you give us a discount?"</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages container -->
+            <div class="messages-container" id="messagesContainer"></div>
+        </div>
+
+        <!-- Input area -->
+        <div class="input-area">
+            <div class="input-wrapper">
+                <textarea
+                    id="queryInput"
+                    placeholder="Describe the customer objection... (e.g., 'They say our product is too expensive')"
+                    rows="1"
+                    maxlength="1000"
+                ></textarea>
+                <button class="send-btn" id="sendBtn" title="Send query">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                </button>
+            </div>
+            <p class="input-hint">Press <kbd>Enter</kbd> to send • <kbd>Shift+Enter</kbd> for new line</p>
+        </div>
+    </main>
+
+    <!-- ═══════════════ TOAST NOTIFICATION ═══════════════ -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
