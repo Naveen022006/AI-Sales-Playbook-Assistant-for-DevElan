@@ -122,7 +122,7 @@ You can now test the assistant by typing objections like *"Your product is way t
 ## 📂 Project Structure
 
 ```text
-EL-105-AI-Sales-Playbook-Assistant/
+AI-Sales-Playbook-Assistant/
 ├── backend/                           # Core FastAPI API Server
 │   ├── rag/                           # RAG Pipeline Logic
 │   │   ├── chunker.py                 # Parses markdown playbook into semantic chunks
