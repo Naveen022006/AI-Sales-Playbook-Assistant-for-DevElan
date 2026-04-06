@@ -1,4 +1,4 @@
-# EL-105: AI Sales Playbook Assistant 🚀
+# AI Sales Playbook Assistant 🚀
 
 A production-ready Retrieval-Augmented Generation (RAG) assistant designed to help sales teams handle customer objections in real-time. It retrieves the best objection handlers from a company playbook and generates structured, context-rich responses using LLaMA 3.3.
 
